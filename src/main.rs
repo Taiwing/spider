@@ -1,4 +1,5 @@
 use std::path::PathBuf;
+use std::fs;
 use clap::{Parser};
 
 #[derive(Parser)]
@@ -17,10 +18,12 @@ struct Cli {
 	path: Option<PathBuf>,
 }
 
-fn main() {
+fn main() -> std::io::Result<()> {
 	let args = Cli::parse();
 	println!("url: {}", args.url);
 	println!("recursive: {}", args.recursive);
 	println!("level: {}", args.level.unwrap());
-	println!("path: {}", args.path.unwrap().display());
+
+	fs::create_dir_all(args.path.unwrap())?;
+	Ok(())
 }
